@@ -85,7 +85,7 @@
       .catch(() => {});
 
     audio.volume = 0.4;
-    let unlocked = false;
+    let started = false;
 
     function setPlayingUI(playing) {
       btn.setAttribute("aria-pressed", playing ? "true" : "false");
@@ -94,13 +94,13 @@
     }
 
     async function startMusic() {
-      if (!audio.paused) {
+      if (started && !audio.paused) {
         setPlayingUI(true);
         return true;
       }
       try {
         await audio.play();
-        unlocked = true;
+        started = true;
         setPlayingUI(true);
         return true;
       } catch (err) {
@@ -109,39 +109,29 @@
       }
     }
 
-    function unlockOnGesture() {
-      if (unlocked && !audio.paused) return;
+    function onFirstScroll() {
+      if (started) return;
       startMusic().then((ok) => {
         if (ok) {
-          window.removeEventListener("pointerdown", unlockOnGesture);
-          window.removeEventListener("keydown", unlockOnGesture);
-          window.removeEventListener("scroll", unlockOnGesture);
-          window.removeEventListener("touchstart", unlockOnGesture);
+          window.removeEventListener("scroll", onFirstScroll);
         }
       });
     }
+
+    window.addEventListener("scroll", onFirstScroll, { passive: true });
 
     btn.addEventListener("click", async (e) => {
       e.stopPropagation();
       try {
         if (audio.paused) {
           await startMusic();
+          window.removeEventListener("scroll", onFirstScroll);
         } else {
           audio.pause();
           setPlayingUI(false);
         }
       } catch (err) {
         setPlayingUI(false);
-      }
-    });
-
-    // Try autoplay immediately; many browsers block until a gesture.
-    startMusic().then((ok) => {
-      if (!ok) {
-        window.addEventListener("pointerdown", unlockOnGesture, { passive: true });
-        window.addEventListener("touchstart", unlockOnGesture, { passive: true });
-        window.addEventListener("keydown", unlockOnGesture);
-        window.addEventListener("scroll", unlockOnGesture, { passive: true });
       }
     });
   }
