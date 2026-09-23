@@ -76,29 +76,72 @@
 
     fetch("audio/ATTRIBUTION.txt")
       .then((r) => (r.ok ? r.text() : ""))
-      .then((t) => {
-        if (credit && t) {
-          const line = t.split("\n").find((l) => l.trim()) || t.trim();
+      .then((txt) => {
+        if (credit && txt) {
+          const line = txt.split("\n").find((l) => l.trim()) || txt.trim();
           credit.textContent = "Music: " + line.replace(/^Title:\s*/i, "").slice(0, 120);
         }
       })
       .catch(() => {});
 
-    audio.volume = 0.35;
+    audio.volume = 0.4;
+    let unlocked = false;
 
-    btn.addEventListener("click", async () => {
+    function setPlayingUI(playing) {
+      btn.setAttribute("aria-pressed", playing ? "true" : "false");
+      const label = btn.querySelector(".music-toggle__text");
+      if (label) label.textContent = playing ? "Playing…" : "Play music";
+    }
+
+    async function startMusic() {
+      if (!audio.paused) {
+        setPlayingUI(true);
+        return true;
+      }
+      try {
+        await audio.play();
+        unlocked = true;
+        setPlayingUI(true);
+        return true;
+      } catch (err) {
+        setPlayingUI(false);
+        return false;
+      }
+    }
+
+    function unlockOnGesture() {
+      if (unlocked && !audio.paused) return;
+      startMusic().then((ok) => {
+        if (ok) {
+          window.removeEventListener("pointerdown", unlockOnGesture);
+          window.removeEventListener("keydown", unlockOnGesture);
+          window.removeEventListener("scroll", unlockOnGesture);
+          window.removeEventListener("touchstart", unlockOnGesture);
+        }
+      });
+    }
+
+    btn.addEventListener("click", async (e) => {
+      e.stopPropagation();
       try {
         if (audio.paused) {
-          await audio.play();
-          btn.setAttribute("aria-pressed", "true");
-          btn.querySelector(".music-toggle__text").textContent = "Playing…";
+          await startMusic();
         } else {
           audio.pause();
-          btn.setAttribute("aria-pressed", "false");
-          btn.querySelector(".music-toggle__text").textContent = "Play music";
+          setPlayingUI(false);
         }
       } catch (err) {
-        btn.querySelector(".music-toggle__text").textContent = "Tap again";
+        setPlayingUI(false);
+      }
+    });
+
+    // Try autoplay immediately; many browsers block until a gesture.
+    startMusic().then((ok) => {
+      if (!ok) {
+        window.addEventListener("pointerdown", unlockOnGesture, { passive: true });
+        window.addEventListener("touchstart", unlockOnGesture, { passive: true });
+        window.addEventListener("keydown", unlockOnGesture);
+        window.addEventListener("scroll", unlockOnGesture, { passive: true });
       }
     });
   }
