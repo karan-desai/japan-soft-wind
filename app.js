@@ -74,7 +74,13 @@
     const credit = document.getElementById("music-credit");
     if (!btn || !audio) return;
 
-    fetch("audio/ATTRIBUTION.txt")
+    // Absolute URL so GitHub Pages subpath always resolves
+    audio.src = new URL("audio/ambient.mp3", window.location.href).href;
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.volume = 0.45;
+
+    fetch(new URL("audio/ATTRIBUTION.txt", window.location.href).href)
       .then((r) => (r.ok ? r.text() : ""))
       .then((txt) => {
         if (credit && txt) {
@@ -84,56 +90,83 @@
       })
       .catch(() => {});
 
-    audio.volume = 0.4;
     let started = false;
+    let trying = false;
 
     function setPlayingUI(playing) {
       btn.setAttribute("aria-pressed", playing ? "true" : "false");
       const label = btn.querySelector(".music-toggle__text");
       if (label) label.textContent = playing ? "Playing…" : "Play music";
+      btn.classList.toggle("is-playing", playing);
+      btn.classList.toggle("needs-tap", !playing && !started);
     }
 
-    async function startMusic() {
-      if (started && !audio.paused) {
+    async function startMusic(from) {
+      if (trying) return false;
+      if (!audio.paused && started) {
         setPlayingUI(true);
         return true;
       }
+      trying = true;
       try {
+        // Load if needed
+        if (audio.readyState < 2) {
+          audio.load();
+        }
         await audio.play();
         started = true;
         setPlayingUI(true);
+        detachUnlockers();
         return true;
       } catch (err) {
+        console.warn("music start blocked", from, err);
         setPlayingUI(false);
+        btn.classList.add("needs-tap");
         return false;
+      } finally {
+        trying = false;
       }
     }
 
-    function onFirstScroll() {
+    function unlock() {
       if (started) return;
-      startMusic().then((ok) => {
-        if (ok) {
-          window.removeEventListener("scroll", onFirstScroll);
-        }
-      });
+      startMusic("gesture");
     }
 
-    window.addEventListener("scroll", onFirstScroll, { passive: true });
+    function detachUnlockers() {
+      window.removeEventListener("touchstart", unlock);
+      window.removeEventListener("pointerdown", unlock);
+      window.removeEventListener("wheel", unlock);
+      window.removeEventListener("scroll", unlock);
+      document.removeEventListener("keydown", unlock);
+    }
+
+    // Real user-activation events (browsers reject plain scroll for audio)
+    window.addEventListener("touchstart", unlock, { passive: true, once: false });
+    window.addEventListener("pointerdown", unlock, { passive: true, once: false });
+    window.addEventListener("wheel", unlock, { passive: true, once: false });
+    window.addEventListener("scroll", unlock, { passive: true, once: false });
+    document.addEventListener("keydown", unlock);
 
     btn.addEventListener("click", async (e) => {
+      e.preventDefault();
       e.stopPropagation();
-      try {
-        if (audio.paused) {
-          await startMusic();
-          window.removeEventListener("scroll", onFirstScroll);
-        } else {
-          audio.pause();
-          setPlayingUI(false);
-        }
-      } catch (err) {
+      if (!audio.paused && started) {
+        audio.pause();
         setPlayingUI(false);
+        // allow restart later
+        started = false;
+        window.addEventListener("touchstart", unlock, { passive: true });
+        window.addEventListener("pointerdown", unlock, { passive: true });
+        window.addEventListener("wheel", unlock, { passive: true });
+        window.addEventListener("scroll", unlock, { passive: true });
+        return;
       }
+      await startMusic("button");
     });
+
+    // Warm the file
+    try { audio.load(); } catch (_) {}
   }
 
   function setupNavHighlight() {
