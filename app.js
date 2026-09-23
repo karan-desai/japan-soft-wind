@@ -91,11 +91,11 @@
         if (audio.paused) {
           await audio.play();
           btn.setAttribute("aria-pressed", "true");
-          btn.querySelector(".music-toggle__text").textContent = "Playing";
+          btn.querySelector(".music-toggle__text").textContent = "Playing…";
         } else {
           audio.pause();
           btn.setAttribute("aria-pressed", "false");
-          btn.querySelector(".music-toggle__text").textContent = "Music";
+          btn.querySelector(".music-toggle__text").textContent = "Play music";
         }
       } catch (err) {
         btn.querySelector(".music-toggle__text").textContent = "Tap again";
