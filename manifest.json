@@ -1,0 +1,113 @@
+{
+  "generated": true,
+  "photoRoot": "photos-ghibli",
+  "style": "ghibli-story",
+  "totalImages": 25,
+  "chapters": [
+    {
+      "id": "2026-05-22",
+      "title": "The threshold at KIX",
+      "place": "Kansai Airport \u00b7 Osaka",
+      "label": "Arrival",
+      "images": [
+        "photos-ghibli/2026-05-22/ghibli-2026-05-22-01.png",
+        "photos-ghibli/2026-05-22/ghibli-2026-05-22-02.png"
+      ]
+    },
+    {
+      "id": "2026-05-23",
+      "title": "Where the forest keeps secrets",
+      "place": "Shrines \u00b7 gardens",
+      "label": "Day 1",
+      "images": [
+        "photos-ghibli/2026-05-23/ghibli-2026-05-23-01.png",
+        "photos-ghibli/2026-05-23/ghibli-2026-05-23-02.png"
+      ]
+    },
+    {
+      "id": "2026-05-24",
+      "title": "Tower, eaves, and moss hats",
+      "place": "Kyoto \u00b7 Otagi",
+      "label": "Day 2",
+      "images": [
+        "photos-ghibli/2026-05-24/ghibli-2026-05-24-01.png",
+        "photos-ghibli/2026-05-24/ghibli-2026-05-24-02.png",
+        "photos-ghibli/2026-05-24/ghibli-barbara-lantern.png"
+      ]
+    },
+    {
+      "id": "2026-05-25",
+      "title": "Lantern gold, vermilion path",
+      "place": "Yasaka \u00b7 Fushimi Inari",
+      "label": "Day 3",
+      "images": [
+        "photos-ghibli/2026-05-25/ghibli-2026-05-25-01.png",
+        "photos-ghibli/2026-05-25/ghibli-2026-05-25-02.png",
+        "photos-ghibli/2026-05-25/ghibli-barbara-alley.png"
+      ]
+    },
+    {
+      "id": "2026-05-26",
+      "title": "Deer, bronze, quiet light",
+      "place": "Nara \u00b7 T\u014ddai-ji",
+      "label": "Day 4",
+      "images": [
+        "photos-ghibli/2026-05-26/ghibli-2026-05-26-01.png",
+        "photos-ghibli/2026-05-26/ghibli-2026-05-26-02.png"
+      ]
+    },
+    {
+      "id": "2026-05-27",
+      "title": "Green blur and paper gourds",
+      "place": "Shinkansen \u00b7 Tokyo",
+      "label": "Day 5",
+      "images": [
+        "photos-ghibli/2026-05-27/ghibli-2026-05-27-01.png",
+        "photos-ghibli/2026-05-27/ghibli-2026-05-27-02.png",
+        "photos-ghibli/2026-05-27/ghibli-barbara-neon.png"
+      ]
+    },
+    {
+      "id": "2026-05-28",
+      "title": "Offerings and a concrete sail",
+      "place": "Meiji \u00b7 Yoyogi",
+      "label": "Day 6",
+      "images": [
+        "photos-ghibli/2026-05-28/ghibli-2026-05-28-01.png",
+        "photos-ghibli/2026-05-28/ghibli-2026-05-28-02.png",
+        "photos-ghibli/2026-05-28/ghibli-barbara-laugh.png"
+      ]
+    },
+    {
+      "id": "2026-05-29",
+      "title": "The mountain finally shows",
+      "place": "Ch\u016breito \u00b7 Kawaguchiko",
+      "label": "Day 7",
+      "images": [
+        "photos-ghibli/2026-05-29/ghibli-2026-05-29-01.png",
+        "photos-ghibli/2026-05-29/ghibli-2026-05-29-02.png"
+      ]
+    },
+    {
+      "id": "2026-05-30",
+      "title": "Peace signs between stations",
+      "place": "Trains \u00b7 Ginza",
+      "label": "Day 8",
+      "images": [
+        "photos-ghibli/2026-05-30/ghibli-2026-05-30-01.png",
+        "photos-ghibli/2026-05-30/ghibli-2026-05-30-02.png",
+        "photos-ghibli/2026-05-30/ghibli-barbara-overpass.png"
+      ]
+    },
+    {
+      "id": "2026-05-31",
+      "title": "Thin goodbye hours",
+      "place": "Terminal \u00b7 cabin",
+      "label": "Departure",
+      "images": [
+        "photos-ghibli/2026-05-31/ghibli-2026-05-31-01.png",
+        "photos-ghibli/2026-05-31/ghibli-2026-05-31-02.png"
+      ]
+    }
+  ]
+}
