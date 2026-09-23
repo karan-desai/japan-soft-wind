@@ -523,3 +523,46 @@ main {
     transition: none;
   }
 }
+
+
+/* Floating music control */
+.music-toggle {
+  position: fixed;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 0.95rem;
+  border: 1px solid rgba(63, 107, 82, 0.22);
+  border-radius: 999px;
+  background: rgba(247, 241, 227, 0.92);
+  backdrop-filter: blur(10px);
+  color: var(--forest);
+  font-family: "Nunito", system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(44, 58, 50, 0.12);
+  transition: transform 0.3s var(--ease), background 0.3s var(--ease), color 0.3s var(--ease);
+}
+.music-toggle:hover { transform: translateY(-2px); }
+.music-toggle[aria-pressed="true"] {
+  background: var(--forest);
+  color: var(--cream);
+  border-color: transparent;
+}
+.music-toggle__icon {
+  font-size: 1rem;
+  line-height: 1;
+  animation: none;
+}
+.music-toggle[aria-pressed="true"] .music-toggle__icon {
+  animation: pulse-note 1.6s ease-in-out infinite;
+}
+@keyframes pulse-note {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.12); opacity: 0.85; }
+}

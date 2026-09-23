@@ -360,12 +360,20 @@
   <footer class="footer">
     <p>Karan &amp; Namrata · Japan · May 2026</p>
     <p class="footer__note">A Ghibli-styled travel story · frames painted from the chronological trip</p>
+    <p class="footer__note" id="music-credit"></p>
   </footer>
 
   <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Photo viewer">
     <button type="button" class="lightbox__close" id="lightbox-close" aria-label="Close">&times;</button>
     <img id="lightbox-img" alt="Enlarged trip frame" />
   </div>
+
+  
+  <button type="button" class="music-toggle" id="music-toggle" aria-pressed="false" aria-label="Play background music">
+    <span class="music-toggle__icon" aria-hidden="true">♪</span>
+    <span class="music-toggle__text">Music</span>
+  </button>
+  <audio id="bg-music" loop preload="metadata" src="audio/ambient.mp3"></audio>
 
   <script src="app.js"></script>
 </body>

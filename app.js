@@ -67,6 +67,42 @@
   }
 
   /* Journey path highlight by region / section */
+
+  function setupMusic() {
+    const btn = document.getElementById("music-toggle");
+    const audio = document.getElementById("bg-music");
+    const credit = document.getElementById("music-credit");
+    if (!btn || !audio) return;
+
+    fetch("audio/ATTRIBUTION.txt")
+      .then((r) => (r.ok ? r.text() : ""))
+      .then((t) => {
+        if (credit && t) {
+          const line = t.split("\n").find((l) => l.trim()) || t.trim();
+          credit.textContent = "Music: " + line.replace(/^Title:\s*/i, "").slice(0, 120);
+        }
+      })
+      .catch(() => {});
+
+    audio.volume = 0.35;
+
+    btn.addEventListener("click", async () => {
+      try {
+        if (audio.paused) {
+          await audio.play();
+          btn.setAttribute("aria-pressed", "true");
+          btn.querySelector(".music-toggle__text").textContent = "Playing";
+        } else {
+          audio.pause();
+          btn.setAttribute("aria-pressed", "false");
+          btn.querySelector(".music-toggle__text").textContent = "Music";
+        }
+      } catch (err) {
+        btn.querySelector(".music-toggle__text").textContent = "Tap again";
+      }
+    });
+  }
+
   function setupNavHighlight() {
     const placeLinks = document.querySelectorAll(".journey-nav__path a[data-place]");
     const brand = document.querySelector(".journey-nav__brand");
@@ -193,6 +229,7 @@
   }
 
   setupNavHighlight();
+  setupMusic();
   setupReveals();
   setupParallax();
   loadPhotos();
